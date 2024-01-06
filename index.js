@@ -34,7 +34,7 @@ app.get('/account/create/:name/:email/:password', function (req, res) {
 
 
 // login user 
-app.get('/account/login/:email/:password', function (req, res) {
+app.get('/account/login/:email/:password/:loggedIn', function (req, res) {
 
     dal.find(req.params.email).
         then((user) => {
@@ -42,11 +42,18 @@ app.get('/account/login/:email/:password', function (req, res) {
             // if user exists, check password
             if(user.length > 0){
                 if (user[0].password === req.params.password){
-                    res.send(user[0]);
-                }
-                else{
+                    // Update loggedIn status in the database
+                    dal.login(req.params.email, req.params.password, req.params.loggedIn)
+                    .then(updatedUser => {
+                    res.send(updatedUser);
+                })
+                    .catch(error => {
+                        res.status(500).send('Error updating loggedIn status: ' + error);
+                     });
+                    }
+            else{
                     res.send('Login failed: wrong password');
-                }
+                    }
             }
             else{
                 res.send('Login failed: user not found');
