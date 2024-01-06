@@ -14,7 +14,7 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
 function create(name, email, password){
     return new Promise((resolve, reject) => {    
         const collection = db.collection('users');
-        const doc = {name, email, password, balance: 0};
+        const doc = {name, email, password, balance: 0, loggedIn: false};
         collection.insertOne(doc, {w:1}, function(err, result) {
             err ? reject(err) : resolve(doc);
         });    
@@ -31,6 +31,24 @@ function find(email){
                 err ? reject(err) : resolve(docs);
         });    
     })
+}
+
+// login to user account
+function login(email, password, loggedIn){
+    return new Promise((resolve, reject) => {    
+        const customers = db
+            .collection('users')
+            .findOneAndUpdate(
+                {email: email, password: password}, 
+                { $set: {loggedIn: loggedIn}},
+                { returnDocument: 'after' },
+                function (err, documents) {
+                    err ? reject(err) : resolve(documents);
+                }
+            );            
+
+
+    });    
 }
 
 // find user account
@@ -75,4 +93,4 @@ function all(){
 }
 
 
-module.exports = {create, findOne, find, update, all};
+module.exports = {create, login, findOne, find, update, all};

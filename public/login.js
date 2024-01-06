@@ -1,6 +1,7 @@
 function Login(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');    
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   return (
     <Card
@@ -8,7 +9,7 @@ function Login(){
       header="Login"
       status={status}
       body={show ? 
-        <LoginForm setShow={setShow} setStatus={setStatus}/> :
+        <LoginForm setShow={setShow} setStatus={setStatus} setLoggedIn={setLoggedIn}/> :
         <LoginMsg setShow={setShow} setStatus={setStatus}/>}
     />
   ) 
@@ -28,9 +29,10 @@ function LoginMsg(props){
 function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   function handle(){
-    fetch(`/account/login/${email}/${password}`)
+    fetch(`/account/login/${email}/${password}/${loggedIn}`)
     .then(response => response.text())
     .then(text => {
         try {
@@ -38,6 +40,7 @@ function LoginForm(props){
             props.setStatus('');
             props.setShow(false);
             console.log('JSON:', data);
+            console.log('login successful');
         } catch(err) {
             props.setStatus(text)
             console.log('err:', text);
@@ -60,7 +63,10 @@ function LoginForm(props){
       className="form-control" 
       placeholder="Enter password" 
       value={password} 
-      onChange={e => setPassword(e.currentTarget.value)}/><br/>
+      onChange={e => {
+        setPassword(e.currentTarget.value);
+        setLoggedIn(true)
+      }}/><br/>
 
     <button type="submit" className="btn btn-light" onClick={handle}>Login</button>
    

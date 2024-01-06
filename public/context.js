@@ -22,3 +22,4 @@ function Card(props){
     </div>      
   );    
 }
+
