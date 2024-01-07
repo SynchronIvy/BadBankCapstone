@@ -43,7 +43,7 @@ app.get('/account/login/:email/:password/:loggedIn', function (req, res) {
             if(user.length > 0){
                 if (user[0].password === req.params.password){
                     // Update loggedIn status in the database
-                    dal.login(req.params.email, req.params.password, req.params.loggedIn)
+                    dal.login(req.params.email, req.params.password, req.params.loggedIn === 'true')
                     .then(updatedUser => {
                     res.send(updatedUser);
                 })
@@ -62,10 +62,35 @@ app.get('/account/login/:email/:password/:loggedIn', function (req, res) {
     
 });
 
+// logout user 
+app.get('/account/logout/:loggedIn', function (req, res) {
+
+    dal.findLoggedIn(req.params.loggedIn).
+        then((user) => {
+            dal.logout(req.params.loggedIn === 'false')
+            .then(updatedUser => {
+                res.send(updatedUser);
+                console.log(updatedUser);
+                res.send(updatedUser);
+            })
+        });
+});
+    
+
 // find user account
 app.get('/account/find/:email', function (req, res) {
 
     dal.find(req.params.email).
+        then((user) => {
+            console.log(user);
+            res.send(user);
+    });
+});
+
+// find loggedin user account
+app.get('/account/findLoggedIn/:loggedIn', function (req, res) {
+
+    dal.find(req.params.loggedIn).
         then((user) => {
             console.log(user);
             res.send(user);
