@@ -51,12 +51,41 @@ function login(email, password, loggedIn){
     });    
 }
 
+// logout of user account
+function logout(loggedIn){
+    return new Promise((resolve, reject) => {    
+        const customers = db
+            .collection('users')
+            .findOneAndUpdate(
+                {loggedIn: true}, 
+                { $set: {loggedIn: loggedIn}},
+                { returnDocument: 'after' },
+                function (err, documents) {
+                    err ? reject(err) : resolve(documents);
+                }
+            );            
+
+
+    });    
+}
+
 // find user account
 function findOne(email){
     return new Promise((resolve, reject) => {    
         const customers = db
             .collection('users')
             .findOne({email: email})
+            .then((doc) => resolve(doc))
+            .catch((err) => reject(err));    
+    })
+}
+
+// find loggedin user account
+function findLoggedIn(loggedIn){
+    return new Promise((resolve, reject) => {    
+        const customers = db
+            .collection('users')
+            .findOne({loggedIn: true})
             .then((doc) => resolve(doc))
             .catch((err) => reject(err));    
     })
@@ -93,4 +122,4 @@ function all(){
 }
 
 
-module.exports = {create, login, findOne, find, update, all};
+module.exports = {create, login, logout, findOne, find, findLoggedIn, update, all};
