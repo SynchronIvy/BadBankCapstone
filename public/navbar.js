@@ -1,21 +1,5 @@
 function NavBar(){
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  // check in there is a user loggedin 
-  function checkLogin(props) {
-
-    fetch(`account/findLoggedIn/${loggedIn}`)
-      .then(response => response.text())
-      .then(text => {
-        try {
-          const data = JSON.parse(text);
-          props.setLoggedIn(true);
-          console.log('JSON:', data);
-        } catch(err) {
-            console.log('LoggedIn user not found');
-        }
-      }); 
-      return props.loggedIn;
-  }
+  
   
   
   // set navbar component based on loggedin status

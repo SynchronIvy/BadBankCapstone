@@ -29,10 +29,11 @@ function LoginMsg(props){
 function LoginForm(props){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [loggedIn, setLoggedIn] = React.useState(false);
 
   function handle(){
-    fetch(`/account/login/${email}/${password}/${loggedIn}`)
+    props.setLoggedIn(true);
+
+    fetch(`/account/login/${email}/${password}`)
     .then(response => response.text())
     .then(text => {
         try {
@@ -63,10 +64,8 @@ function LoginForm(props){
       className="form-control" 
       placeholder="Enter password" 
       value={password} 
-      onChange={e => {
-        setPassword(e.currentTarget.value);
-        setLoggedIn(true)
-      }}/><br/>
+      onChange={e => setPassword(e.currentTarget.value)
+      }/><br/>
 
     <button type="submit" className="btn btn-light" onClick={handle}>Login</button>
    

@@ -34,13 +34,13 @@ function find(email){
 }
 
 // login to user account
-function login(email, password, loggedIn){
+function login(email, password){
     return new Promise((resolve, reject) => {    
         const customers = db
             .collection('users')
             .findOneAndUpdate(
                 {email: email, password: password}, 
-                { $set: {loggedIn: loggedIn}},
+                { $set: {loggedIn: true}},
                 { returnDocument: 'after' },
                 function (err, documents) {
                     err ? reject(err) : resolve(documents);
@@ -81,12 +81,12 @@ function findOne(email){
 }
 
 // find loggedin user account
-function findLoggedIn(loggedIn){
+function findLoggedIn(){
     return new Promise((resolve, reject) => {    
         const customers = db
             .collection('users')
             .findOne({loggedIn: true})
-            .then((doc) => resolve(doc))
+            .then((doc) => resolve({ loggedIn: !!doc }))
             .catch((err) => reject(err));    
     })
 }

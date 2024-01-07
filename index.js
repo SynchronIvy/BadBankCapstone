@@ -34,7 +34,7 @@ app.get('/account/create/:name/:email/:password', function (req, res) {
 
 
 // login user 
-app.get('/account/login/:email/:password/:loggedIn', function (req, res) {
+app.get('/account/login/:email/:password', function (req, res) {
 
     dal.find(req.params.email).
         then((user) => {
@@ -88,10 +88,10 @@ app.get('/account/find/:email', function (req, res) {
 });
 
 // find loggedin user account
-app.get('/account/findLoggedIn/:loggedIn', function (req, res) {
+app.get('/account/findLoggedIn', function (req, res) {
 
-    dal.find(req.params.loggedIn).
-        then((user) => {
+    dal.findLoggedIn()
+        .then((user) => {
             console.log(user);
             res.send(user);
     });
@@ -104,6 +104,10 @@ app.get('/account/findOne/:email', function (req, res) {
         then((user) => {
             console.log(user);
             res.send(user);
+    })
+    .catch((error) => {
+        console.log('Error finding logged in user:', error);
+        res.status(500).send('Error finding logged in user');       
     });
 });
 
