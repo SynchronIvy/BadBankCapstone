@@ -1,18 +1,31 @@
-function Login(){
+function Login(props){
   const [show, setShow]     = React.useState(true);
-  const [status, setStatus] = React.useState('');    
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [status, setStatus] = React.useState('');     
+  const [loggedIn, setLoggedIn] = React.useState(props.loggedIn);
+
+
+  // callback function to Spa() about login status change
+  function handleLoggedInChange(newLoggedInState) {
+    setLoggedIn(newLoggedInState);
+    props.handleLoggedInChange(newLoggedInState);
+  };
 
   return (
     <Card
       bgcolor="secondary"
       header="Login"
       status={status}
-      body={show ? 
-        <LoginForm setShow={setShow} setStatus={setStatus} setLoggedIn={setLoggedIn}/> :
-        <LoginMsg setShow={setShow} setStatus={setStatus}/>}
+      body={show ? (
+        <LoginForm 
+        setShow={setShow} 
+        setStatus={setStatus} 
+        handleLoggedInChange={handleLoggedInChange}/>
+        ) : (
+          <LoginMsg setShow={setShow} setStatus={setStatus}/>
+        )
+      }
     />
-  ) 
+  ); 
 }
 
 function LoginMsg(props){
@@ -31,7 +44,7 @@ function LoginForm(props){
   const [password, setPassword] = React.useState('');
 
   function handle(){
-    props.setLoggedIn(true);
+    props.handleLoggedInChange(true);
 
     fetch(`/account/login/${email}/${password}`)
     .then(response => response.text())

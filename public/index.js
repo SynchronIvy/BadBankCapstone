@@ -21,6 +21,11 @@ function Spa() {
     checkLogin();
   }, [loggedIn]); //  variable independency array means it runs if loggedIn changes
 
+  // Callback function passed to children to track login status
+  function handleLoggedInChange(newLoggedInState) {
+    setLoggedIn(newLoggedInState);
+  };
+
     return (
       <HashRouter>
         <div>
@@ -33,8 +38,14 @@ function Spa() {
             <div className="container" style={{padding: "20px"}}>
               <Route path="/" exact component={Home} />
               <Route path="/CreateAccount/" component={CreateAccount} />
-              <Route path="/login/" component={Login} />
-              <Route path="/logout/" component={Logout} />
+              <Route
+                path="/login/"
+                render={(props) => <Login {...props} loggedIn={loggedIn} handleLoggedInChange={handleLoggedInChange} checkLogin={checkLogin}/>}
+              />
+              <Route 
+                path="/logout/" 
+                render={(props) => <Logout {...props} loggedIn={loggedIn} handleLoggedInChange={handleLoggedInChange} checkLogin={checkLogin}/>}
+              />
               <Route path="/deposit/" component={Deposit} />
               <Route path="/withdraw/" component={Withdraw} />
               <Route path="/balance/" component={Balance} />

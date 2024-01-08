@@ -1,18 +1,30 @@
-function Logout(){
+function Logout(props){
     const [show, setShow]     = React.useState(true);
     const [status, setStatus] = React.useState('');   
-    const [loggedIn, setLoggedIn] = React.useState(true);
+    const [loggedIn, setLoggedIn] = React.useState(props.loggedIn);
+
+      // callback function to Spa() about login status change
+    function handleLoggedInChange(newLoggedInState) {
+    setLoggedIn(newLoggedInState);
+    props.handleLoggedInChange(newLoggedInState);
+    };
 
     return (
         <Card
           bgcolor="secondary"
           header="Logout"
           status={status}
-          body={show ? 
-            <LogoutForm setShow={setShow} setStatus={setStatus} setLoggedIn={setLoggedIn}/> :
-            <LogoutMsg setShow={setShow} setStatus={setStatus}/>}
+          body={show ? (
+            <LogoutForm 
+            setShow={setShow} 
+            setStatus={setStatus} 
+            handleLoggedInChange={handleLoggedInChange}/> 
+            ) : (
+                <LogoutMsg setShow={setShow} setStatus={setStatus}/>
+            )  
+          }
         />
-      ) 
+    ); 
 }
 
 function LogoutMsg(props){
@@ -33,15 +45,17 @@ function LogoutMsg(props){
 
 function LogoutForm(props){ 
     function handle(){
+        props.handleLoggedInChange(false);
+
         fetch(`account/logout/${props.loggedIn}`)
         .then(response => response.text())
         .then(text => {
             try {
                 const data = JSON.parse(text);
                 props.setStatus('');
-                props.setLoggedIn(false);
                 props.setShow(false);
                 console.log('JSON:', data);
+                console.log('logout successful');
             } catch(err) {
                 props.setStatus(text);
                 console.log('LoggedIn user not found');
