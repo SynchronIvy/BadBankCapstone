@@ -1,6 +1,7 @@
 function Spa() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userName, setUserName] = React.useState('');
+  const [email, setEmail]       = React.useState('');
 
   // check in there is a user loggedin 
   function checkLogin() {
@@ -9,6 +10,8 @@ function Spa() {
       .then(data => {
         if (data && data.loggedIn !== undefined) {
           setLoggedIn(data.loggedIn || false);
+          setUserName(data.name);
+          setEmail(data.email);
       } else {
         console.log('Invalid response format:', data);
       }
@@ -19,13 +22,12 @@ function Spa() {
   }
 
   React.useEffect(() => {
-    //checkLogin();
+    checkLogin();
   }, [loggedIn]); //  variable independency array means it runs if loggedIn changes
 
   // Callback function passed to children to track login status
-  function handleLoggedInChange(newLoggedInState, email) {
+  function handleLoggedInChange(newLoggedInState) {
     setLoggedIn(newLoggedInState);
-    setUserName(email);
   };
 
     return (
@@ -48,10 +50,22 @@ function Spa() {
                 path="/logout/" 
                 render={(props) => <Logout {...props} loggedIn={loggedIn} handleLoggedInChange={handleLoggedInChange} checkLogin={checkLogin}/>}
               />
-              <Route path="/deposit/" component={Deposit} />
-              <Route path="/withdraw/" component={Withdraw} />
-              <Route path="/balance/" component={Balance} />
-              <Route path="/alldata/" component={AllData} />
+              <Route 
+                path="/deposit/" 
+                render={(props) => <Deposit {...props} userName={userName} email={email}/>}
+              />
+              <Route 
+                path="/withdraw/"
+                render={(props) => <Withdraw {...props} userName={userName} email={email}/>} 
+                />
+              <Route 
+                path="/balance/"
+                render={(props) => <Balance {...props} userName={userName} email={email}/>}
+              />
+              <Route 
+                path="/alldata/" 
+                render={(props) => <AllData {...props} userName={userName} email={email}/>}
+              />
             </div>
           </UserContext.Provider>
         </div>
