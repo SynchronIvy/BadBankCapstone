@@ -71,7 +71,6 @@ app.get('/account/logout/:loggedIn', function (req, res) {
             .then(updatedUser => {
                 res.send(updatedUser);
                 console.log(updatedUser);
-                res.send(updatedUser);
             })
         });
 });

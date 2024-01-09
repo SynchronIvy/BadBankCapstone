@@ -1,5 +1,6 @@
 function Spa() {
   const [loggedIn, setLoggedIn] = React.useState(false);
+  const [userName, setUserName] = React.useState('');
 
   // check in there is a user loggedin 
   function checkLogin() {
@@ -18,19 +19,20 @@ function Spa() {
   }
 
   React.useEffect(() => {
-    checkLogin();
+    //checkLogin();
   }, [loggedIn]); //  variable independency array means it runs if loggedIn changes
 
   // Callback function passed to children to track login status
-  function handleLoggedInChange(newLoggedInState) {
+  function handleLoggedInChange(newLoggedInState, email) {
     setLoggedIn(newLoggedInState);
+    setUserName(email);
   };
 
     return (
       <HashRouter>
         <div>
           {loggedIn ? (
-            <LoggedInNavBar/>
+            <LoggedInNavBar userName={userName}/>
           ) : (
             <LoggedOutNavBar/>
           )}       
@@ -57,7 +59,7 @@ function Spa() {
     );
   }
 
-const LoggedInNavBar = () => {
+const LoggedInNavBar = ({userName}) => {
   // LoggedIn NavBar option
   return(
 
@@ -85,6 +87,11 @@ const LoggedInNavBar = () => {
           </li>   
         </ul>
       </div>
+      <div className="collapse navbar-collapse justify-content-end">
+          <li className="navbar-text justify-content-end">
+            <a className="navbar-text justify-content-end">Welcome, {userName}</a>
+          </li>
+          </div>  
     </nav>
 )};
 

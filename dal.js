@@ -1,14 +1,23 @@
 const MongoClient = require('mongodb').MongoClient;
-const url         = 'mongodb://localhost:27017';
+const url         = 'mongodb+srv://mkhowa:%23dBwhAt1DuNN0@capstonebadbank.yqe2lhh.mongodb.net/?retryWrites=true&w=majority';
 let db            = null;
  
-// connect to mongo
-MongoClient.connect(url, {useUnifiedTopology: true}, function(err, client) {
-    console.log("Connected successfully to db server");
-
-    // connect to myproject database
-    db = client.db('myproject');
-});
+// Connect to MongoDB Atlas
+async function connectToDatabase() {
+    try {
+      const client = await MongoClient.connect(url, { useUnifiedTopology: true });
+      console.log('Connected successfully to MongoDB Atlas');
+  
+      // Connect to your database
+      db = client.db('CapstoneBadBank');
+      console.log('Connected to database');
+    } catch (err) {
+      console.error('Error connecting to MongoDB Atlas:', err);
+    }
+  }
+  
+  // Call the function to connect
+  connectToDatabase();
 
 // create user account
 function create(name, email, password){
