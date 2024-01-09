@@ -81,23 +81,32 @@ function logout(loggedIn){
 // find user account
 function findOne(email){
     return new Promise((resolve, reject) => {    
-        const customers = db
-            .collection('users')
-            .findOne({email: email})
-            .then((doc) => resolve(doc))
+        db.collection('users')
+        .findOne({email: email})
+            .then((doc) =>  {
+                // If email is found, resolve with the balance
+                resolve({ balance: doc.balance });
+            })
             .catch((err) => reject(err));    
-    })
+    });
 }
 
-// find loggedin user account
-function findLoggedIn(){
-    return new Promise((resolve, reject) => {    
-        const customers = db
-            .collection('users')
-            .findOne({loggedIn: true})
-            .then((doc) => resolve({ loggedIn: !!doc }))
-            .catch((err) => reject(err));    
-    })
+// find logged-in user account
+function findLoggedIn() {
+    return new Promise((resolve, reject) => {
+        db.collection('users')
+            .findOne({ loggedIn: true })
+            .then((doc) => {
+                if (doc) {
+                    // If a logged-in user is found, resolve with the email and name
+                    resolve({ loggedIn: true, email: doc.email, name: doc.name });
+                } else {
+                    // If no logged-in user is found, resolve with loggedIn as false
+                    resolve({ loggedIn: false });
+                }
+            })
+            .catch((err) => reject(err));
+    });
 }
 
 // update - deposit/withdraw amount

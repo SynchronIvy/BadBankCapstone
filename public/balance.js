@@ -1,6 +1,10 @@
-function Balance(){
+function Balance(props){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');  
+  const [balance, setBalance] = React.useState(0);
+
+  const userName = props.userName;
+  const email = props.email;
 
   return (
     <Card
@@ -8,8 +12,8 @@ function Balance(){
       header="Balance"
       status={status}
       body={show ?
-        <BalanceForm setShow={setShow} setStatus={setStatus}/> :
-        <BalanceMsg setShow={setShow} setStatus={setStatus}/>}
+        <BalanceForm setBalance={setBalance} userName={userName} email={email} setShow={setShow} setStatus={setStatus}/> :
+        <BalanceMsg balance={balance} userName={userName} email={email} setShow={setShow} setStatus={setStatus}/>}
     />
   )
 
@@ -17,7 +21,7 @@ function Balance(){
 
 function BalanceMsg(props){
   return(<>
-    <h5>Success</h5>
+    <h5>{props.userName}, your current balance is: ${props.balance}</h5>
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => {
@@ -29,35 +33,30 @@ function BalanceMsg(props){
   </>);
 }
 
-function BalanceForm(props){
-  const [email, setEmail]   = React.useState('');
-  const [balance, setBalance] = React.useState('');  
+function BalanceForm(props){ 
 
   function handle(){
-    fetch(`/account/findOne/${email}`)
-    .then(response => response.text())
-    .then(text => {
-        try {
-            const data = JSON.parse(text);
-            props.setStatus(text);
+    fetch(`/account/findOne/${props.email}`)
+    .then(response => response.json())
+    .then((data) => {
+        if (data && data.balance !== undefined) {
+            props.setStatus('');
             props.setShow(false);
-            setBalance(user.balance);
+            props.setBalance(data.balance);
             console.log('JSON:', data);
-        } catch(err) {
-            props.setStatus(text)
-            console.log('err:', text);
+        } else {
+          console.log('Invalid response format:' + data);
         }
-    });
+      })
+      .catch((error) => {
+            props.setStatus('Error fetching data')
+            console.log('error:', error);
+        });
   }
 
   return (<>
 
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/>
+    <h5>Click the button to check your balance, {props.userName}</h5>
 
     <button type="submit" 
       className="btn btn-light" 

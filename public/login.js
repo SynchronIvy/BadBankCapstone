@@ -5,9 +5,9 @@ function Login(props){
 
 
   // callback function to Spa() about login status change
-  function changeStatus(newLoggedInState, userName) {
+  function changeStatus(newLoggedInState) {
     setLoggedIn(newLoggedInState);
-    props.handleLoggedInChange(newLoggedInState, userName);
+    props.handleLoggedInChange(newLoggedInState);
   };
 
   return (
@@ -44,7 +44,7 @@ function LoginForm(props){
   const [password, setPassword] = React.useState('');
 
   function handle(){
-    props.changeStatus(true, email);
+    props.changeStatus(true);
 
     fetch(`/account/login/${email}/${password}`)
     .then(response => response.text())
