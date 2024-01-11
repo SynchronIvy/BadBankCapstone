@@ -1,6 +1,10 @@
-function Deposit(){
+function Deposit(props){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');  
+
+  const userName = props.userName;
+  const email = props.email;
+
 
   return (
     <Card
@@ -8,7 +12,7 @@ function Deposit(){
       header="Deposit"
       status={status}
       body={show ? 
-        <DepositForm setShow={setShow} setStatus={setStatus}/> :
+        <DepositForm userName={userName} email={email} setShow={setShow} setStatus={setStatus}/> :
         <DepositMsg setShow={setShow} setStatus={setStatus}/>}
     />
   )
@@ -29,16 +33,15 @@ function DepositMsg(props){
 } 
 
 function DepositForm(props){
-  const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
 
   function handle(){
-    fetch(`/account/update/${email}/${amount}`)
+    fetch(`/account/update/${props.email}/${amount}`)
     .then(response => response.text())
     .then(text => {
         try {
             const data = JSON.parse(text);
-            props.setStatus(JSON.stringify(data.value));
+            //props.setStatus(JSON.stringify(data.value));
             props.setShow(false);
             console.log('JSON:', data);
         } catch(err) {
@@ -50,11 +53,7 @@ function DepositForm(props){
 
   return(<>
 
-    Email<br/>
-    <input type="input" 
-      className="form-control" 
-      placeholder="Enter email" 
-      value={email} onChange={e => setEmail(e.currentTarget.value)}/><br/>
+    <h5>Please enter deposit amount, {props.userName}</h5>
       
     Amount<br/>
     <input type="number" 
