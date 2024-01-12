@@ -35,6 +35,7 @@ function LogoutMsg(props){
 
     return(<>
         <h5>You have been logged out.</h5>
+        {(<img src="./images/loggedout.png" className="img-fluid" alt="Responsive image"/>)}
         <button type="submit" 
         className="btn btn-light" 
         onClick={goHome}>
@@ -64,7 +65,7 @@ function LogoutForm(props){
     }
    
     return (<>
-    
+        {(<img src="./images/loggedin.png" className="img-fluid" alt="Responsive image"/>)}
         <button type="submit" className="btn btn-light" onClick={handle}>Logout</button>
        
       </>);

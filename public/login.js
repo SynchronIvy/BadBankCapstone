@@ -31,6 +31,7 @@ function Login(props){
 function LoginMsg(props){
   return(<>
     <h5>Success</h5>
+    {(<img src="./images/loggedin.png" className="img-fluid" alt="Responsive image"/>)}
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => props.setShow(true)}>
@@ -64,7 +65,7 @@ function LoginForm(props){
 
 
   return (<>
-
+    {(<img src="./images/loggedout.png" className="img-fluid" alt="Responsive image"/>)}
     Email<br/>
     <input type="input" 
       className="form-control" 

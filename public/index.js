@@ -78,7 +78,9 @@ const LoggedInNavBar = ({userName}) => {
   return(
 
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="#">BadBank</a>
+      <a className="navbar-brand" href="#">
+      <img src="./images/logoLI.png" width="30" height="30" className="d-inline-block align-top" alt=""/>
+        BadBank</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -114,7 +116,9 @@ const LoggedOutNavBar = () => {
   return(
 
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <a className="navbar-brand" href="#">BadBank</a>
+      <a className="navbar-brand" href="#">
+      <img src="./images/logoLO.png" width="30" height="30" className="d-inline-block align-top" alt=""/>
+        BadBank</a>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>

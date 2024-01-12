@@ -21,6 +21,7 @@ function Deposit(props){
 function DepositMsg(props){
   return (<>
     <h5>Success</h5>
+    {(<img src="./images/deposit2.png" className="img-fluid" alt="Responsive image"/>)} 
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => {
@@ -54,7 +55,7 @@ function DepositForm(props){
   return(<>
 
     <h5>Please enter deposit amount, {props.userName}</h5>
-      
+    {(<img src="./images/deposit1.png" className="img-fluid" alt="Responsive image"/>)}  
     Amount<br/>
     <input type="number" 
       className="form-control" 

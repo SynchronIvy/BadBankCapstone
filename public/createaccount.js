@@ -17,6 +17,7 @@ function CreateAccount(){
 function CreateMsg(props){
   return(<>
     <h5>Success</h5>
+    {(<img src="./images/createacc2.png" className="img-fluid" alt="Responsive image"/>)}
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => props.setShow(true)}>Add another account</button>
@@ -40,7 +41,7 @@ function CreateForm(props){
   }    
 
   return (<>
-
+    {(<img src="./images/createacc1.png" className="img-fluid" alt="Responsive image"/>)}
     Name<br/>
     <input type="input" 
       className="form-control" 

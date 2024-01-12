@@ -22,6 +22,7 @@ function Balance(props){
 function BalanceMsg(props){
   return(<>
     <h5>{props.userName}, your current balance is: ${props.balance}</h5>
+    {(<img src="./images/balance.png" className="img-fluid" alt="Responsive image"/>)}
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => {
@@ -57,7 +58,7 @@ function BalanceForm(props){
   return (<>
 
     <h5>Click the button to check your balance, {props.userName}</h5>
-
+    {(<img src="./images/balance.png" className="img-fluid" alt="Responsive image"/>)}
     <button type="submit" 
       className="btn btn-light" 
       onClick={handle}>

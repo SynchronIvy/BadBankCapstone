@@ -20,6 +20,7 @@ function Withdraw(props){
 function WithdrawMsg(props){
   return(<>
     <h5>Success</h5>
+    {(<img src="./images/withdraw.png" className="img-fluid" alt="Responsive image"/>)} 
     <button type="submit" 
       className="btn btn-light" 
       onClick={() => {
@@ -52,10 +53,8 @@ function WithdrawForm(props){
 
 
   return(<>
-
-    Email<br/>
     <h5>Please enter withdrawal amount, {props.userName}</h5>
-
+    {(<img src="./images/deposit2.png" className="img-fluid" alt="Responsive image"/>)} 
     Amount<br/>
     <input type="number" 
       className="form-control" 
