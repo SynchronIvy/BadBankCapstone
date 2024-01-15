@@ -2,6 +2,7 @@ function Spa() {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [userName, setUserName] = React.useState('');
   const [email, setEmail]       = React.useState('');
+  
 
   // check in there is a user loggedin 
   function checkLogin() {

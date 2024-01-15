@@ -1,45 +1,13 @@
-const AWS         = require('aws-sdk');
 const MongoClient = require('mongodb').MongoClient;
+const url         = process.env.MONGODB_CONNECTION_STRING;
 let db            = null;
-
-AWS.config.update({ region: 'eu-north-1' });
-
-const ssm = new AWS.SSM();
-
-async function getMongoDBConnectionString() {
-    const params = {
-      Name: '/badbankcapstone/mongodb-connection-string', 
-      WithDecryption: true, // Decrypt the parameter value if it's encrypted
-    };
-
-    try {
-        const response = await ssm.getParameter(params).promise();
-        return response.Parameter.Value;
-      } catch (error) {
-        console.error('Error retrieving MongoDB connection string from Parameter Store:', error);
-        throw error;
-      }
-    }
  
 // Connect to MongoDB Atlas
-async function connectToDatabase() {
-    try {
-      const url = await getMongoDBConnectionString();
-      console.log('MongoDB Connection String:', url);
+MongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
+    console.log("Connected successfully to db server");
   
-      const client = await MongoClient.connect(url, { useUnifiedTopology: true });
-      console.log('Connected successfully to MongoDB Atlas');
-  
-      // Connect to your database
-      db = client.db('CapstoneBadBank');
-      console.log('Connected to database');
-    } catch (err) {
-      console.error('Error connecting to MongoDB Atlas:', err);
-    }
-  }
-  
-  // Call the function to connect
-  connectToDatabase();
+    db = client.db("CapstoneBadBank");
+  });
 
 // create user account
 function create(name, email, password){
